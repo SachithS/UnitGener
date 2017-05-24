@@ -1,0 +1,1 @@
+function getLastItemOfList(itemList) {    for (var i = 0; i < itemList.length; i++) {    if (i+1 == itemList.length) {    return itemList[i]            }        }    }
