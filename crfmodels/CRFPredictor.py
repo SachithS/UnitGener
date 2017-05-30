@@ -26,13 +26,13 @@ class CRFPredictor(object):
         _edges = self.add_type1_feature_edges(_features)
 
         X_train_sample = (_features, _edges)
-        y_train_sample = np.array([1, 1, 2, 0, 3])
+        y_train_sample = np.array([1, 1, 0, 1, 2])
 
         print _features
         print _edges
 
         # creat some full training set by re-sampling above thing
-        n_samples = 20
+        n_samples = 10
         X_train = []
         y_train = []
         for i in range(n_samples):
@@ -71,7 +71,7 @@ class CRFPredictor(object):
                     if _sum_value.isdigit():
                         _sum_value_int = int(_sum_value)
                         if "+" in feature.split('==')[0]:
-                            var_1 = random.randint(0, _sum_value_int)
+                            var_1 = random.randint(4, _sum_value_int)
                             var_2 = _sum_value_int - var_1
                         if "-" in feature.split('==')[0]:
                             var_1 = _sum_value_int * 2
@@ -87,23 +87,25 @@ class CRFPredictor(object):
                             var_1 = random.randint(0, _sum_value_int)
                             var_2 = _sum_value_int - var_1
                         if "/" in feature.split('==')[0]:
-                            var_2 = random.randint(0, 15)
+                            var_2 = random.randint(4, 15)
                             var_1 = _sum_value_int * var_2
 
         for index, feature in enumerate(return_tokens):
 
             if "function" in feature:
-                feature_1 = [200, 0]
+                feature_1 = [2, 0]
             if index == 1:
                 feature_2 = [int(var_1), 0]
             if index == 2:
-                feature_3 = [int(var_1), 0]
+                feature_3 = [int(var_2), 0]
             if "if" in feature:
                 feature_4 = [int(_sum_value), 0]
             if "return" in feature and "true" in feature:
-                feature_5 = [101, 0]
-            if "return" in feature and "false" in feature:
-                feature_5 = [100, 0]
+                feature_5 = [3, 0]
+            elif "return" in feature and "false" in feature:
+                feature_5 = [4, 0]
+            else:
+                feature_5 = [5, 0]
 
         # features with the order - function , variable_1 , variable_2 , if , return
         features = np.array([feature_2, feature_3, feature_1, feature_4, feature_5])

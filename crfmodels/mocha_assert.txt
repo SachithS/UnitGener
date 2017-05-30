@@ -1,0 +1,4 @@
+0:  dec
+1:  none
+2:  bool
+3:  result.should.be.equal(<obj>);

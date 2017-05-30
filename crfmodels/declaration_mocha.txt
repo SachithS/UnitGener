@@ -1,0 +1,7 @@
+description: describe('<add description>', function() {
+header:  it('should description', function() {
+function:    var result = function(var1 , var2);
+var:      var <name> = <value>
+true: result.should.be.true;
+false: result.should.be.false;
+enclose: });

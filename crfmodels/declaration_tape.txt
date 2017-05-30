@@ -1,0 +1,9 @@
+description:
+header:  test('<add description>', function (assert) {
+function:    module.func(function test (err, result) {
+var:      var <name> = <value>
+true: assert.equal(result, true);
+false: assert.equal(result, false);
+end: assert.end();
+enclose: });
+

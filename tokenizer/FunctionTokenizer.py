@@ -53,8 +53,42 @@ class FunctionTokenizer(object):
 
                 for token in return_tokens:
                     print token
+                _result_list.append(return_tokens)
 
-                return return_tokens
+        return return_tokens
+
+    def init_processing_function(self, line_content):
+
+        skip_features = ['(', ')', '{', '}']
+        _raw_tokens = []
+
+        if line_content != '/n':
+            js_tokens = []
+            string_tokens = self.pre_process_tokens(line_content.split())
+            count = 0
+            print 'Length of tokens - ' + str(len(string_tokens))
+            for _token in string_tokens:
+                # print _token
+                if skip_features.__contains__(_token):
+                    continue
+                elif _token == 'function':
+                    js_tokens.append(_token + ' ' + string_tokens[count + 1])
+                    string_tokens.pop(count + 1)
+                else:
+                    js_tokens.append(_token)
+                count += 1
+
+            variable_token_result = self.process_dec_tokens(js_tokens)
+            format_result_tokens = self.conditional_token_processor(variable_token_result)
+            result_tokens = self.literal_token_processor(format_result_tokens)
+            trim_tokens = self.trim_process_tokens(result_tokens)
+            return_tokens = self.statement_token_builder(trim_tokens)
+
+            # for token in return_tokens:
+            #     print token
+            # _raw_tokens.append(return_tokens)
+
+        return return_tokens
 
     def pre_process_tokens(self, str_tokens):
         _return_tokens = []
@@ -169,6 +203,7 @@ class FunctionTokenizer(object):
         return _build_tokens
 
     def trim_process_tokens(self, result_tokens):
+
         _return_tokens = []
 
         for idx, token in enumerate(result_tokens):
